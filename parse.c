@@ -1,28 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 char ** parse_args( char * line ) {
-  char (*args[5]);
+  char ** return_dis = (char**)calloc(6, sizeof(char *));
   int count = 0;
-  while (line != NULL) {
-    args[count] = strsep(&line, " ");
+  while (line) {
+    char * curr = strsep(&line, " ");
+    return_dis[count]= curr;
     count++;
   }
-
-  return args;
+  return_dis[count]= NULL;
+  return return_dis;
 }
 
 int main() {
-  char test[100] = "ls -l -a";
-  char *s2 = test;
-  char line[100] = "wow-this-is-cool";
-  char *s1 = line;
-  printf("[%s]\n", strsep( &s1, "-" ));
-  printf("[%s]\n", s1);
-  char (*ans[5]);
-  ans[] = parse_args(s2);
-  printf("first arg: [%s]\n", ans[0]);
-  printf("second arg: [%s]\n", ans[1]);
-  printf("third arg: [%s]\n", ans[2]);
+  char commands[256]= "ls -a -l";
+  printf("\n Calling the function parse_args to execute commands:\n");
+  char ** args = parse_args(commands);
+  execvp(args[0], args);
+  free(args);
+  return 0;
+  
 }
